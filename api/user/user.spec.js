@@ -1,7 +1,7 @@
 const should=require('should')
 const assert=require('assert')
 const request=require('supertest')
-const app=require('./index')
+const app=require('../../index')
 
 describe('GET /users',()=>{
     describe('Success',()=>{
