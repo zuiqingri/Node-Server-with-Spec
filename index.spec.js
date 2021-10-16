@@ -62,3 +62,48 @@ describe('GET /users/:id',()=>{
         })
     })
 })
+
+describe('DELETE /users/:id',()=>{
+    describe('Success',()=>{
+        it('Return 204',done=>{
+            request(app)
+            .delete('/users/3')
+            .expect(204)
+            .end(done)
+        })
+    })
+    describe('Fail',()=>{
+        it('id is not number=>400',done=>{
+            request(app)
+            .delete('/users/three')
+            .expect(400)
+            .end(done)
+        })
+    })
+})
+
+describe('POST /users',()=>{
+    describe('Success',()=>{
+        it('Return 201,Return created object',done=>{
+            request(app)
+            .post('/users').send({name:'Daniel'})
+            .expect(201)
+            .end((err,res)=>{
+                res.body.should.have.property('name','Daniel')
+                done()
+            })
+        })
+    })
+    describe('Fail',()=>{
+        it('not name=>400',done=>{
+            request(app)
+            .post('/users').send({})
+            .expect(400).end(done)
+        })
+        it('name repeated=>409',done=>{
+            request(app)
+            .post('/users').send({name:'Alice'})
+            .expect(409).end(done)
+        })
+    })
+})
